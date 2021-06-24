@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param } from "@nestjs/common";
 import { CreateProductDTO } from "./dto/product";
 import { ProductService } from "./product.service";
+import { CreateOwnerDT } from "./dto/owner";
 
 @Controller('product')
 export class ProductController {
@@ -8,6 +9,18 @@ export class ProductController {
 
     constructor(private  productService : ProductService ) {
     }
+
+     @Post('createOwner')
+    async createOwner( @Res() res , @Body() ownerBody : CreateOwnerDT ){
+
+           console.log(ownerBody);
+          const onwerCreated =  await  this.productService.createOwner(ownerBody);
+          return res.status(HttpStatus.OK)
+            .json({
+                  "status" : true,
+                  onwerCreated
+            });
+     }
 
       @Post('create')
      async createPost(@Res() res , @Body() createProductDTO : CreateProductDTO ){
